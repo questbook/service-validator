@@ -4,6 +4,9 @@
  */
 
 export interface paths {
+  "/fetch/token-price": {
+    get: operations["fetchTokenPrice"];
+  };
   "/validate/grant-create": {
     post: operations["validateGrantCreate"];
   };
@@ -81,6 +84,8 @@ export interface components {
       /** @description IPFS hash of token icon */
       iconHash: string;
     };
+    /** @description Token fetch request */
+    TokenFetchRequest: string;
     /** @description Chain ID of the network */
     SupportedNetwork:
       | "1313161555"
@@ -260,6 +265,18 @@ export interface components {
     OwnerID: string;
   };
   responses: {
+    /** Token fetching was a success */
+    TokenFetchSuccess: {
+      content: {
+        "application/json": {
+          /**
+           * @description token price data in USD from CMC
+           * @example 1000
+           */
+          data: string;
+        };
+      };
+    };
     /** Validation was success, data pushed to IPFS & pinned */
     ValidationSuccessResponse: {
       content: {
@@ -287,6 +304,19 @@ export interface components {
 }
 
 export interface operations {
+  fetchTokenPrice: {
+    parameters: {
+      query: {
+        /** symbol of token to fetch */
+        symbol: string;
+      };
+    };
+    responses: {
+      200: components["responses"]["TokenFetchSuccess"];
+      400: components["responses"]["ErrorResponse"];
+      500: components["responses"]["ErrorResponse"];
+    };
+  };
   validateGrantCreate: {
     responses: {
       200: components["responses"]["ValidationSuccessResponse"];

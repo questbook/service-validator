@@ -1,6 +1,7 @@
 //generated file, run 'yarn generate:routes-index' to update
 
 export default {
+	fetchTokenPrice: async() => (await import('./fetchTokenPrice')).default,
 	validateApplicationMilestoneUpdate: async() => (await import('./validateApplicationMilestoneUpdate')).default,
 	validateGrantApplicationCreate: async() => (await import('./validateGrantApplicationCreate')).default,
 	validateGrantApplicationUpdate: async() => (await import('./validateGrantApplicationUpdate')).default,

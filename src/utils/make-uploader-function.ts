@@ -5,7 +5,7 @@ import { Handler, Operation } from './make-api'
 const IS_TEST = process.env.NODE_ENV === 'test'
 
 async function makeUploaderFunction<T extends Operation>(operation: T) {
-	const handler: Handler<T> = async(req) => {
+	const handler: Handler<T> = async(req: any) => {
 		const createdAt = new Date()
 		// add additional metadata to the application
 		const fullData = { ...req, createdAt }
@@ -16,7 +16,7 @@ async function makeUploaderFunction<T extends Operation>(operation: T) {
 		} else {
 			// stringify the grant & push to IPFS
 			const result = await uploadToIPFS(
-				JSON.stringify(fullData), 
+				JSON.stringify(fullData),
 				`qb-${operation}-${createdAt.getTime()}.json`
 			)
 			hash = result.hash
